@@ -26,6 +26,8 @@ var createRoles = function createRoles() {
       }).save()]).then(function (values) {
         console.log(values);
       });
+    })["catch"](function (error) {
+      console.log(error);
     });
   } catch (error) {
     console.error(error);
