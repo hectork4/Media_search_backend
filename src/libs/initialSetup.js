@@ -14,7 +14,9 @@ export const createRoles = () => {
         new Role({ name: "admin" }).save(),
       ]).then((values) => {
         console.log(values);
-      })
+      });
+    }).catch(function(error){
+      console.log(error);
     });
    
   } catch (error) {
