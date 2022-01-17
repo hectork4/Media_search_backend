@@ -3,12 +3,12 @@ import Role from "../models/Role";
 import jwt from "jsonwebtoken";
 import config from "../config"
 
-export const createUser = async (req, res) => {
+export const createUser = (req, res) => {
   try {
     const { email, password } = req.body;
 
     const rolesFound = ['admin'] 
-    
+
     const user = new User({
       username: email,
       email,
@@ -17,36 +17,32 @@ export const createUser = async (req, res) => {
       favourites:[]
     });
 
-    user.password = await User.encryptPassword(user.password);
+    User.encryptPassword(user.password).then((npass) => user.password = npass);
 
-    const savedUser = await user.save();
-
-    return res.status(200).json({
+    return user.save().then((savedUser) => res.status(200).json({
       _id: savedUser._id,
       username: savedUser.username,
       email: savedUser.email,
       roles: savedUser.roles,
       favourites: savedUser.favourites
-    });
+    }));
   } catch (error) {
     console.error(error);
   }
 };
 
-export const getUser = async (req, res) => {
+export const getUser = (req, res) => {
   let token = req.headers["x-access-token"];
   const decoded = jwt.verify(token, config.SECRET);
-  const userData = await User.findById(decoded.id)
-  res.json(userData)
+  User.findById(decoded.id).then((userData) => res.json(userData))
 };
 
-export const updateUser = async (req, res) => {
+export const updateUser = (req, res) => {
   let token = req.headers["x-access-token"];
   const decoded = jwt.verify(token, config.SECRET);
-  const updatedUser = await User.findByIdAndUpdate(decoded.id, req.body,{
+  User.findByIdAndUpdate(decoded.id, req.body,{
     new: true
-  });
-  res.status(200).json(updatedUser);
+  }).then((updatedUser) => res.status(200).json(updatedUser));
 };
 
-export const getUsers = async (req, res) => {};
+//export const getUsers = async (req, res) => {};

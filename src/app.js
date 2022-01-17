@@ -12,7 +12,7 @@ import userRoutes from './routes/user.route'
 const app = express()
 createRoles()
  
-app.set('pkg', pkg) 
+app.set('pkg', pkg);
 
 app.use(morgan('dev'));
 app.use(cors()); 
