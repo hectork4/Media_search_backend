@@ -4,7 +4,8 @@
   "description": "Backend buscador",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec ./node_modules/.bin/babel-node src/index.js",
+    "start:dev": "nodemon fileName.js",
+    "start": "node --exec ./node_modules/.bin/babel-node src/index.js",
     "build": "babel src --out-dir build",
     "dev": "node build/index.js",
     "test": "jest"
